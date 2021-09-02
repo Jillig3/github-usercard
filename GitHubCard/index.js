@@ -28,19 +28,6 @@
     user, and adding that card to the DOM.
 */
 
-// const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd','bigknell'];
-// followersArray.forEach(user => {
-//   axios.get(`https://api.github.com/users/${user}`)
-//   .then(res => {
-//     console.log(res);
-//       const cardProfile = cardMaker(res.data)
-//     infoCards.appendChild(cardProfile)
-//     console.log('Alive');
-//   })
-//   .catch(err => {
-//     console.error(err);
-//   })
-// });
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
@@ -64,7 +51,7 @@
 
 const cardDiv = document.querySelector('.cards');
 
-function cardMaker( avatar_url, name, login, location, html_url, followers, following, bio) {
+function cardMaker({ avatar_url, name, login, location, html_url, followers, following, bio, id }) {
 
   const card = document.createElement('div');
   const cardImg = document.createElement('img');
@@ -95,8 +82,8 @@ function cardMaker( avatar_url, name, login, location, html_url, followers, foll
   cardUsername.className = "username";
 
   cardImg.src = avatar_url;
-  cardInfo.textContent = (`${name}`);
-  cardUsername.textContent = `${login}`;
+  cardName.textContent = name;
+  cardUsername.textContent = login;
   cardLocation.textContent = `Location: ${location}`;
   cardProfile.textContent = `Profile: ${id}`;
   cardA.href = html_url;
@@ -110,25 +97,35 @@ function cardMaker( avatar_url, name, login, location, html_url, followers, foll
 
 }
 
-// const user = Jillig3;
+// const user = 'Jillig3';
 
-// const CreateUserCard = async (user) => {
-//   try {
-//     const resp = await axios.gets(`https://api.github.com/users/${user}`); 
-//    for(let i = 0; i < resp.data.length; i++) {
-//     const userData = resp.data;
-//     const gitCard = cardMaker(userData);
-//     card.appendChile(gitCard);
-//    } 
-//   } 
-//   catch(err) {
-//     const errorText = document.createElement('p');
-//     errorText.textContent = "not working";
-//     document.body.appendChild(errorText);
-//   } finally {
-//     console.log('I hope this works');
-//   }
-// }
+const CreateUserCard = async (user) => {
+  try {
+    const resp = await axios.get(`https://api.github.com/users/${user}`); 
+    console.log(resp.data);
+    // for(let i = 0; i < resp.data.length; i++) {
+    const userData = resp.data;
+    const gitCard = cardMaker(userData);
+    cardDiv.appendChild(gitCard);
+  } 
+  catch(err) {
+    console.log(err);
+    const errorText = document.createElement('p');
+    errorText.textContent = "not working";
+    document.body.appendChild(errorText);
+  } finally {
+    console.log('I hope this works');
+  }
+}
+// CreateUserCard(user);
+
+
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd','bigknell'];
+followersArray.forEach(user => {
+CreateUserCard(user);
+});
+
 /*
   List of LS Instructors Github username's:
     tetondan
